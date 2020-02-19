@@ -7,7 +7,7 @@ import tweepy   # To consume Twitter's API  # For number computing
 from textblob import TextBlob
 import os
 from flask import Flask, request, render_template, jsonify, Markup
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from collections import Counter
 import csv
 import numpy
@@ -17,18 +17,19 @@ import folium
 import geopy
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut
-import nltk
-nltk.download()
+#import nltk
+#nltk.download()
 import collections
-from nltk.corpus import stopwords
-stemmer=nltk.PorterStemmer()
-stops = set(stopwords.words("english"))
+#from nltk.corpus import stopwords
+#stemmer=nltk.PorterStemmer()
+#stops = set(stopwords.words("english"))
 
-consumer_key =""
-consumer_secret=""
+consumer_key ="3sZ8BJUb9DyfKNP0b3xTsiPD3"
+consumer_secret="Dw0wQ3AA8Q81kTuuox2eONx80eXc7uxOSBERd5l7QFKcBacGPt"
 
-access_token=""
-access_token_secret=""
+access_token="907246770714841088-imvBR3GS6brBoz42GIBrNzdYwMvHYXA"
+access_token_secret="NFuW4En7cW6RBX6HJqtoH2GsGL4KJpm96GpH0owmu0Mc3"
+
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -112,12 +113,12 @@ def index():
             review_text = BeautifulSoup(raw_data,"html5lib").get_text() #removes html tags
             letters_only = re.sub("[^a-zA-Z]", " ", review_text)
             words = letters_only.lower().split()
-            meaningful_words = list(filter(lambda x: (stemmer.stem(x)) , words))
-            meaningful_words = [w for w in meaningful_words if not w in stops]
-            for wo in meaningful_words:
+            #meaningful_words = list(filter(lambda x: (stemmer.stem(x)) , words))
+            #meaningful_words = [w for w in meaningful_words if not w in stops]
+            for wo in words:
                 if not 2<len(wo)<31:
-                    meaningful_words.remove(wo)
-            for we in meaningful_words:       #optimisation required
+                    words.remove(wo)
+            for we in words:       #optimisation required
                 preprocessed_words.append(we)
 
 
@@ -263,7 +264,7 @@ def parallax():
 @app.route('/credentials',methods=['GET','POST'])
 def credentials():
     password=request.form['password']
-    if(password=="jpmc"):
+    if(password=="password"):
         return render_template('index.html')
     return('Wrong Access Code')
 
@@ -317,7 +318,6 @@ def map1():
     return render_template('map1.html')
 
 if __name__ == '__main__':
-   app.run(debug = True)
-
-#port = int(os.environ.get('PORT', 5000))
-#app.run(host="127.0.0.1", port=port, debug=True)
+   #app.run(debug = True)
+   port = int(os.environ.get('PORT', 5000))
+   app.run(host="127.0.0.1", port=port, debug=True)
